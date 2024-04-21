@@ -13,8 +13,8 @@ export default function Index() {
           className="self-center object-fill w-fit h-fit md:h-80 pb-1 rounded-lg"
         />
         <div className="h-fit w-full self-center py-9 md:px-6 rounded-xl">
-          <p className=" text-2xl">aSD daAD AdRWEW TE TW YERYRWY WY WRY YWRYRWY RY </p>
-          <p className=" text-lg">aSD daAD AdRWEW TE TW YERYRWY WY WRY YWRYRWY RY </p>
+          <p className="text-2xl">aSD daAD AdRWEW TE TW YERYRWY WY WRY YWRYRWY RY </p>
+          <p className="text-lg">aSD daAD AdRWEW TE TW YERYRWY WY WRY YWRYRWY RY </p>
         </div>
       </div>
 
