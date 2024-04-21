@@ -19,9 +19,9 @@ export default function MNavbar() {
     <Navbar className="bg-slate-700 text-white">
       <NavbarContent justify="start">
         <NavbarMenuToggle className="sm:hidden" />
-        <NavbarBrand>
-          {/* <Image src={'/image/logo/IMC.svg'} width={1200} height={1200} alt={'IMC logo'} className="w-12 h-12" /> */}
-          <p className="flex gap-1 text-xl md:text-2xl font-bold min-w-max" onClick={() => { router.replace("./") }}>Chat AI</p>
+        <NavbarBrand className="gap-2">
+          <Image src={'/image/logo/logo-192.png'} width={1200} height={1200} alt={'IMC logo'} className="w-10 h-10" />
+          <p className="flex gap-1 text-xl md:text-2xl font-bold min-w-max" onClick={() => { router.replace("./") }}>IMC</p>
         </NavbarBrand>
 
       </NavbarContent>

@@ -17,7 +17,7 @@ export default function Home() {
           />
         </div>
         <div className="h-80 w-full bg-white self-center py-9 text-lg px-7 md:px-5 rounded-x">
-          <p>
+          <p style={{ direction: 'rtl' }}>
             مرحبًا بك في موقعنا لتشخيص الأمراض النفسية، نحن هنا لمساعدتك وتقديم
             الدعم
             مرحبًا بك في موقعنا لتشخيص الأمراض النفسية، نحن هنا لمساعدتك وتقديم
