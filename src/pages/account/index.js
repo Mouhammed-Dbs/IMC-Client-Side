@@ -13,26 +13,37 @@ export default function Index() {
           className="self-center object-fill w-fit h-fit md:h-80 pb-1 rounded-lg"
         />
         <div className="h-fit w-full self-center py-9 md:px-6 rounded-xl">
-          <p className="text-2xl">aSD daAD AdRWEW TE TW YERYRWY WY WRY YWRYRWY RY </p>
-          <p className="text-lg">aSD daAD AdRWEW TE TW YERYRWY WY WRY YWRYRWY RY </p>
+          <p className="text-2xl">
+            aSD daAD AdRWEW TE TW YERYRWY WY WRY YWRYRWY RY{" "}
+          </p>
+          <p className="text-lg">
+            aSD daAD AdRWEW TE TW YERYRWY WY WRY YWRYRWY RY{" "}
+          </p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center pb-10 px-4 md:px-10 py-5">
-        <DoctorCard name="yossef abras" username="@yossefabras" des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!" />
-        <DoctorCard name="aaaa" username="@yossefaaabras" des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!" />
-        <DoctorCard name="yossef abras" username="@yossefabras" des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!" />
-        <DoctorCard name="yossef abras" username="@yossefabras" des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!" />
-        <DoctorCard name="yossef abras" username="@yossefabras" des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!" />
-        <DoctorCard name="aaaa" username="@yossefaaabras" des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!" />
-        <DoctorCard name="yossef abras" username="@yossefabras" des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!" />
-        <DoctorCard name="yossef abras" username="@yossefabras" des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!" />
-
+        <DoctorCard
+          name="yossef abras"
+          username="@yossefabras"
+          des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!"
+        />
+        <DoctorCard
+          name="aaaa"
+          username="@yossefaaabras"
+          des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!"
+        />
+        <DoctorCard
+          name="yossef abras"
+          username="@yossefabras"
+          des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!"
+        />
+        <DoctorCard
+          name="yossef abras"
+          username="@yossefabras"
+          des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!"
+        />
       </div>
     </div>
-
-
   );
 }
-
-
