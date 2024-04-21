@@ -1,10 +1,11 @@
 import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from "@nextui-org/react";
 import Link from "next/link";
-import { IoIosMenu, IoMdHome } from "react-icons/io";
+import { IoMdHome } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { GrContact } from "react-icons/gr";
 import { IoPeopleOutline } from "react-icons/io5";
+import Image from "next/image";
 export default function MNavbar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function MNavbar() {
       <NavbarContent justify="start">
         <NavbarMenuToggle className="sm:hidden" />
         <NavbarBrand>
-          {/* <AcmeLogo /> */}
+          {/* <Image src={'/image/logo/IMC.svg'} width={1200} height={1200} alt={'IMC logo'} className="w-12 h-12" /> */}
           <p className="flex gap-1 text-xl md:text-2xl font-bold min-w-max" onClick={() => { router.replace("./") }}>Chat AI</p>
         </NavbarBrand>
 
