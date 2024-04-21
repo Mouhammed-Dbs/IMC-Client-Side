@@ -7,7 +7,7 @@ export default function MainNavbarNavbar() {
         <h1 className="text-lg md:text-2xl font-bold min-w-max">Chat AI</h1>
       </div>
 
-      <div className="flex gap-2 md:gap-4">Info-user</div>
+      <div className="flex absolute right-5  md:gap-4">Info-user</div>
     </header>
   );
 }

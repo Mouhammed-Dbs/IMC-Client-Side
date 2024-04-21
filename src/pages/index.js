@@ -1,6 +1,7 @@
 import { Montserrat } from "next/font/google";
 import Image from "next/image";
 
+
 const monto = Montserrat({ subsets: ["latin"] });
 export default function Home() {
   return (

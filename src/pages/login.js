@@ -11,9 +11,9 @@ export default function Login() {
   const [inputLoginEmail, setInputLoginEmail] = useState(null);
   const [inputLoginPass, setInputLoginPass] = useState(null);
   return (
-    <div className="flex flex-col items-center relative top-16 w-full flex-1 px-20 text-center">
-      <div className="bg-white rounded-2xl shadow-2xl flex flex-grow w-2/3 max-w-4xl ">
-        <div className="w-3/5 p-5">
+    <div className="flex flex-col items-center relative top-16 w-full flex-1 px-5 md:px-20 text-center">
+      <div className="bg-white rounded-2xl shadow-2xl flex flex-grow w-full md:w-2/3 max-w-4xl ">
+        <div className="w_full md:w-3/5 p-5">
           <h1 className="text-4xl font-bold text-center mt-5 text-black ">
             {isLoginForm ? "Login" : "Sign Up"}
           </h1>
@@ -76,14 +76,14 @@ export default function Login() {
           ) : (
             <form className="max-w-md mx-auto mt-2 p-3">
               <input
-                onSubmit={() => {}}
+                onSubmit={() => { }}
                 className="w-full border border-gray-700 rounded px-3 py-1 mb-4"
                 type="text"
                 name="name"
                 placeholder="Name"
               />
               <input
-                onSubmit={() => {}}
+                onSubmit={() => { }}
                 className="w-full border border-gray-700 rounded px-3 py-1 mb-4"
                 type="text"
                 name="username"
@@ -133,17 +133,6 @@ export default function Login() {
                   <SelectItem>19</SelectItem>
                 </Select>
               </div>
-              {/* <div className="flex justify-center gap-4">
-                <span className="">Select gender:</span>
-                <div className="self-center">
-                  <input name="g" type="radio" className="accent-slate-700" />
-                  <label className="ml-2">Male</label>
-                </div>
-                <div className="self-center">
-                  <input name="g" type="radio" className="accent-slate-700" />
-                  <label className="ml-2">Female</label>
-                </div>
-              </div> */}
               <Button
                 className="hover:bg-slate-700 border-2 border-slate-700 hover:border-slate-500 text-slate-700 hover:text-white font-bold py-2 px-4 rounded-large mt-5"
                 type="submit"
@@ -156,7 +145,7 @@ export default function Login() {
             </form>
           )}
         </div>
-        <div className="w-2/3 md-h bg-slate-700 text-white rounded-tr-2xl py-36 px-12">
+        <div className=" md:w-2/3 md-h bg-slate-700 text-white rounded-tr-2xl py-36 px-12 hidden md:block">
           <h2 className="text-3xl font-bold mb-2">Hello Frind</h2>
           <span className="border-1 w-20 border-white inline-block mb-2"></span>
           <p>
@@ -171,8 +160,20 @@ export default function Login() {
           >
             {isLoginForm ? "Sign up" : "login"}
           </button>
+
         </div>
       </div>
+      <p className="text-center p-2 my-3 rounded-lg underline md:hidden "
+        onClick={() => {
+          setIsLoginForm(!isLoginForm);
+
+        }
+        }
+      >
+        {!isLoginForm ? "You have alerdy account" : "You Don`t have acount"}
+
+      </p>
     </div>
+
   );
 }
