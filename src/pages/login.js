@@ -10,6 +10,9 @@ export default function Login() {
   const [alert, setAlert] = useState({ error: false, message: "" });
   const [inputLoginEmail, setInputLoginEmail] = useState(null);
   const [inputLoginPass, setInputLoginPass] = useState(null);
+  const options = Array.from({ length: 50 }, (_, i) => ({
+    value: `${i + 1}`,
+  }));
   return (
     <div className="flex flex-col items-center relative top-16 w-full flex-1 px-5 md:px-20 text-center">
       <div className="bg-white rounded-2xl shadow-2xl flex flex-grow w-full md:w-2/3 max-w-4xl ">
@@ -129,8 +132,11 @@ export default function Login() {
                     trigger: "",
                   }}
                 >
-                  <SelectItem>18</SelectItem>
-                  <SelectItem>19</SelectItem>
+                  {options.map((item) => (
+                    <SelectItem key={item.value} >
+                      {item.value}
+                    </SelectItem>
+                  ))}
                 </Select>
               </div>
               <Button
@@ -142,6 +148,8 @@ export default function Login() {
               {alert.error && (
                 <p className="text-red-500 mt-3">{alert.message}</p>
               )}
+
+
             </form>
           )}
         </div>
