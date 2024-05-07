@@ -4,7 +4,7 @@ const nextConfig = {
   env: {
     BASE_API_URL:
       process.env.NODE_ENV === "development"
-        ? "http://localhost:5000"
+        ? "https://imc-server-side.onrender.com"
         : "https://imc-server-side.onrender.com",
   },
   async headers() {
@@ -12,7 +12,7 @@ const nextConfig = {
       {
         source:
           process.env.NODE_ENV === "development"
-            ? "//localhost:5000/(.*)"
+            ? "//imc-server-side.onrender.com.app/(.*)"
             : "//imc-server-side.onrender.com.app/(.*)",
         headers: [
           { key: "Access-Control-Allow-Credentials", value: "true" },
@@ -20,7 +20,7 @@ const nextConfig = {
             key: "Access-Control-Allow-Origin",
             value:
               process.env.NODE_ENV === "development"
-                ? "http://localhost:3000"
+                ? "https:/imc-server-side.onrender.com"
                 : "https://imc-server-side.onrender.com",
           },
           {
