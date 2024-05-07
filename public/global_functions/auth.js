@@ -4,7 +4,7 @@ const isUserLogged = async () => {
   if (token) {
     try {
       const res = await axios.get(
-        `${process.env.BASE_API_URL}/user/user-info`,
+        `${process.env.BASE_API_URL}/user/info-user`,
         {
           headers: {
             Authorization: token,
