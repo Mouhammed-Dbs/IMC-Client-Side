@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { Select, SelectItem } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
-import { loginUser } from "../../public/global_functions/auth";
-import { signUpUser } from "../../public/global_functions/auth";
+import { loginUser, registerUser } from "../../public/global_functions/auth";
 
 export default function Login() {
   const router = useRouter();
@@ -16,9 +15,9 @@ export default function Login() {
   const [inputsignUsername, setInputSignUsername] = useState(null);
   const [inputsignEmail, setInputSignEmail] = useState(null);
   const [inputsignPass, setInputSignPass] = useState(null);
-  const [inputSelectGender, setInputGender] = useState(null);
   const [inputSelectAge, setInputAge] = useState(null);
-  const options = Array.from({ length: 50 }, (_, i) => ({
+  const [genderSelected, setGenderSelected] = useState("male");
+  const ages = Array.from({ length: 70 }, (_, i) => ({
     value: `${i + 1}`,
   }));
   return (
@@ -85,12 +84,20 @@ export default function Login() {
               )}
             </form>
           ) : (
-            <form className="max-w-md mx-auto mt-2 p-3"
+            <form
+              className="max-w-md mx-auto mt-2 p-3"
               onSubmit={async (e) => {
                 e.preventDefault();
                 try {
                   setLoading(true);
-                  const res = await signUpUser(inputsignName, inputsignUsername, inputsignEmail, inputsignPass, inputSelectGender, inputSelectAge);
+                  const res = await registerUser(
+                    inputsignName,
+                    inputsignEmail,
+                    inputsignUsername,
+                    inputsignPass,
+                    inputSelectAge,
+                    genderSelected
+                  );
                   if (!res.error) {
                     localStorage.setItem("user-token", res.token);
                     router.replace("/account");
@@ -101,7 +108,7 @@ export default function Login() {
                   setLoading(false);
                 } catch (err) {
                   setLoading(false);
-                  if (err.response.status === 401) {
+                  if (err?.response?.status === 401) {
                     console.log(err.response.data.message);
                     setAlert({
                       error: true,
@@ -143,7 +150,10 @@ export default function Login() {
               />
               <div className="flex gap-5">
                 <Select
-                  onChange={(e) => setInputGender(e.target.value)}
+                  selectedKeys={[genderSelected]}
+                  onChange={(e) => {
+                    setGenderSelected(e.target.value);
+                  }}
                   disallowEmptySelection={true}
                   aria-label="none"
                   style={{ backgroundColor: "inherit" }}
@@ -155,8 +165,8 @@ export default function Login() {
                     trigger: "",
                   }}
                 >
-                  <SelectItem>Male</SelectItem>
-                  <SelectItem>Female</SelectItem>
+                  <SelectItem key={"male"}>Male</SelectItem>
+                  <SelectItem key={"female"}>Female</SelectItem>
                 </Select>
                 <Select
                   onChange={(e) => setInputAge(e.target.value)}
@@ -171,10 +181,8 @@ export default function Login() {
                     trigger: "",
                   }}
                 >
-                  {options.map((item) => (
-                    <SelectItem key={item.value} >
-                      {item.value}
-                    </SelectItem>
+                  {ages.map((item) => (
+                    <SelectItem key={item.value}>{item.value}</SelectItem>
                   ))}
                 </Select>
               </div>
@@ -187,8 +195,6 @@ export default function Login() {
               {alert.error && (
                 <p className="text-red-500 mt-3">{alert.message}</p>
               )}
-
-
             </form>
           )}
         </div>
@@ -207,20 +213,16 @@ export default function Login() {
           >
             {isLoginForm ? "Sign up" : "login"}
           </button>
-
         </div>
       </div>
-      <p className="text-center p-2 my-3 rounded-lg underline md:hidden "
+      <p
+        className="text-center p-2 my-3 rounded-lg underline md:hidden "
         onClick={() => {
           setIsLoginForm(!isLoginForm);
-
-        }
-        }
+        }}
       >
         {!isLoginForm ? "You have alerdy account" : "You Don`t have acount"}
-
       </p>
     </div>
-
   );
 }
