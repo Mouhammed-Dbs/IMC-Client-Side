@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import { Select, SelectItem } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
 import { loginUser } from "../../public/global_functions/auth";
+import { signUpUser } from "../../public/global_functions/auth";
+
 export default function Login() {
   const router = useRouter();
   const [isLoginForm, setIsLoginForm] = useState(true);
@@ -10,6 +12,12 @@ export default function Login() {
   const [alert, setAlert] = useState({ error: false, message: "" });
   const [inputLoginEmail, setInputLoginEmail] = useState(null);
   const [inputLoginPass, setInputLoginPass] = useState(null);
+  const [inputsignName, setInputSignName] = useState(null);
+  const [inputsignUsername, setInputSignUsername] = useState(null);
+  const [inputsignEmail, setInputSignEmail] = useState(null);
+  const [inputsignPass, setInputSignPass] = useState(null);
+  const [inputSelectGender, setInputGender] = useState(null);
+  const [inputSelectAge, setInputAge] = useState(null);
   const options = Array.from({ length: 50 }, (_, i) => ({
     value: `${i + 1}`,
   }));
@@ -77,28 +85,57 @@ export default function Login() {
               )}
             </form>
           ) : (
-            <form className="max-w-md mx-auto mt-2 p-3">
+            <form className="max-w-md mx-auto mt-2 p-3"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                try {
+                  setLoading(true);
+                  const res = await signUpUser(inputsignName, inputsignUsername, inputsignEmail, inputsignPass, inputSelectGender, inputSelectAge);
+                  if (!res.error) {
+                    localStorage.setItem("user-token", res.token);
+                    router.replace("/account");
+                  } else {
+                    setAlert({ error: res.error, message: res.message });
+                    console.log(res.message);
+                  }
+                  setLoading(false);
+                } catch (err) {
+                  setLoading(false);
+                  if (err.response.status === 401) {
+                    console.log(err.response.data.message);
+                    setAlert({
+                      error: true,
+                      message: err.response.data.message,
+                    });
+                  } else {
+                    console.error(err);
+                  }
+                }
+              }}
+            >
               <input
-                onSubmit={() => { }}
+                onChange={(e) => setInputSignName(e.target.value)}
                 className="w-full border border-gray-700 rounded px-3 py-1 mb-4"
                 type="text"
                 name="name"
                 placeholder="Name"
               />
               <input
-                onSubmit={() => { }}
+                onChange={(e) => setInputSignUsername(e.target.value)}
                 className="w-full border border-gray-700 rounded px-3 py-1 mb-4"
                 type="text"
                 name="username"
                 placeholder="Username"
               />
               <input
+                onChange={(e) => setInputSignEmail(e.target.value)}
                 className="w-full border border-gray-700 rounded px-3 py-1 mb-4"
                 type="email"
                 name="email "
                 placeholder="Email"
               />
               <input
+                onChange={(e) => setInputSignPass(e.target.value)}
                 className="w-full border border-gray-700 rounded px-3 py-1 mb-4"
                 type="password"
                 name="password"
@@ -106,6 +143,7 @@ export default function Login() {
               />
               <div className="flex gap-5">
                 <Select
+                  onChange={(e) => setInputGender(e.target.value)}
                   disallowEmptySelection={true}
                   aria-label="none"
                   style={{ backgroundColor: "inherit" }}
@@ -121,6 +159,7 @@ export default function Login() {
                   <SelectItem>Female</SelectItem>
                 </Select>
                 <Select
+                  onChange={(e) => setInputAge(e.target.value)}
                   disallowEmptySelection={true}
                   aria-label="none"
                   style={{ backgroundColor: "inherit" }}
