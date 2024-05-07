@@ -13,14 +13,15 @@ export default function MainLayout(props) {
       .then((result) => {
         if (result.error) {
           router.replace("/login");
+          console.log(1);
         } else {
           setUserInfo(result.data.user);
-          localStorage.setItem("user-token", result.data._id);
           setPageLoading(false);
         }
       })
       .catch(async (err) => {
         await router.replace("/login");
+        console.log(2);
         setPageLoading(false);
       });
   }, []);

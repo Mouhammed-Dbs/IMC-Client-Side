@@ -7,7 +7,7 @@ const isUserLogged = async () => {
         `${process.env.BASE_API_URL}/user/info-user`,
         {
           headers: {
-            Authorization: token,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -26,6 +26,7 @@ const loginUser = async (email, password) => {
     const res = await axios.get(
       `${process.env.BASE_API_URL}/user/login?email=${email}&password=${password}`
     );
+    console.log(res.data.token);
     return res.data;
   } catch (error) {
     throw error;
