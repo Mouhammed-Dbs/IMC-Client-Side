@@ -187,10 +187,11 @@ export default function Login() {
                 </Select>
               </div>
               <Button
+                isDisabled={loading}
                 className="hover:bg-slate-700 border-2 border-slate-700 hover:border-slate-500 text-slate-700 hover:text-white font-bold py-2 px-4 rounded-large mt-5"
                 type="submit"
               >
-                Signup
+                {loading ? "Signing.." : "Signup"}
               </Button>
               {alert.error && (
                 <p className="text-red-500 mt-3">{alert.message}</p>
