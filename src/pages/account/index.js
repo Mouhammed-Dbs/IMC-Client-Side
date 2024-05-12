@@ -10,11 +10,11 @@ export default function Index() {
   useEffect(() => {
     getDoctors()
       .then((res) => {
-        if (!res.error) setSessionsUser(res.data);
-        setLaoding(false);
+        if (res.error == false) setSessionsUser(res.data);
+        // setLaoding(false);
       })
       .catch((err) => {
-        setLaoding(false);
+        // setLaoding(false);
       });
   }, []);
   return (
@@ -44,12 +44,15 @@ export default function Index() {
               key={doctor._id}
               name={doctor.name}
               username={doctor.username}
+              gender={doctor.gender}
               des={doctor.description}
             />
           ))}
         </div>
       ) : (
-        <Spinner />
+        <div className="w-full flex justify-center py-5">
+          <Spinner />
+        </div>
       )}
     </div>
   );
