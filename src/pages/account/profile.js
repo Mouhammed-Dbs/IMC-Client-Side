@@ -1,9 +1,10 @@
 import SessionCard from "@/components/SessionCard";
+import { MainContext } from "@/layouts/MainLayout";
 import { Avatar, Button, Card } from "@nextui-org/react";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-export default function Profile() {
+export default function Profile({ user }) {
     const ScrollRef = useRef();
     const [widthScreen, setWidthScreen] = useState('')
     const handleScroll = (type) => {
@@ -14,6 +15,7 @@ export default function Profile() {
         }
         ScrollRef.current.scrollLeft += scrollAmount;
     };
+    const { userInfo } = useContext(MainContext)
     useEffect(() => {
         setWidthScreen(document.documentElement.clientWidth);
         window.addEventListener('resize', () => {
@@ -32,13 +34,13 @@ export default function Profile() {
                         <Avatar className="w-20 h-20 " radius="full" />
                     </div>
                     <div className="mx-10">
-                        <p className="font-bold ">Email:<span className="text-gray-400">yossefabras@gmail.com</span></p>
-                        <p className="font-bold ">Gender : <span className="text-gray-400">male</span></p>
-                        <p className="font-bold ">Old: <span className="text-gray-400">40</span></p>
+                        <p className="font-bold ">Email:<span className="text-gray-400">{userInfo.email}</span></p>
+                        <p className="font-bold ">Gender : <span className="text-gray-400">{userInfo.gender}</span></p>
+                        <p className="font-bold ">Old: <span className="text-gray-400">{userInfo.age}</span></p>
                     </div>
                     <div className="p-3" >
-                        <p className="text-2xl">yossef sfdsgfghgj</p>
-                        <p className="text-lg text-gray-400">@yossse</p>
+                        <p className="text-2xl">{userInfo.name}</p>
+                        <p className="text-lg text-gray-400">{userInfo.username}</p>
                     </div>
                     <Button
                         className="block m-auto  text-lg bg-slate-700 text-white px-8"

@@ -65,18 +65,7 @@ export default function MNavbar() {
         </NavbarItem>
 
       </NavbarContent>
-      <NavbarContent justify="end">
-        <NavbarItem>
-          <Button
-            className="text-slate-700 rounded-lg bg-white px-2 py-1 mx-1 font-bold "
-            onClick={() => {
-              router.push("/login");
-            }}
-          >
-            Login
-          </Button>
-        </NavbarItem>
-      </NavbarContent>
+
       <NavbarMenu className="bg-slate-600 text-white">
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>

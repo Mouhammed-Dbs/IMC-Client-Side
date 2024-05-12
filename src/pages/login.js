@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Select, SelectItem } from "@nextui-org/react";
+import { Select, SelectItem, Spinner } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
-import { loginUser, registerUser } from "../../public/global_functions/auth";
+import { isUserLogged, loginUser, registerUser } from "../../public/global_functions/auth";
 
 export default function Login() {
   const router = useRouter();
@@ -17,9 +17,31 @@ export default function Login() {
   const [inputsignPass, setInputSignPass] = useState(null);
   const [inputSelectAge, setInputAge] = useState(null);
   const [genderSelected, setGenderSelected] = useState("male");
+  const [pageLoading, setPageLoading] = useState(true);
   const ages = Array.from({ length: 70 }, (_, i) => ({
     value: `${i + 1}`,
   }));
+  useEffect(() => {
+    isUserLogged()
+      .then((result) => {
+        if (!result.error) {
+          router.replace("/");
+        } else {
+          setPageLoading(false);
+        }
+
+      })
+      .catch(async (err) => {
+        setPageLoading(false);
+      });
+  }, []);
+  if (pageLoading) {
+    return (
+      <div className="flex items-center justify-center w-screen h-screen">
+        <Spinner />
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col items-center relative top-16 w-full flex-1 px-5 md:px-20 text-center">
       <div className="bg-white rounded-2xl shadow-2xl flex flex-grow w-full md:w-2/3 max-w-4xl ">
@@ -46,11 +68,11 @@ export default function Login() {
                   setLoading(false);
                 } catch (err) {
                   setLoading(false);
-                  if (err.response.status === 401) {
-                    console.log(err.response.data.message);
+                  if (err?.response?.status === 401) {
+                    console.log(err?.response?.data.message);
                     setAlert({
                       error: true,
-                      message: err.response.data.message,
+                      message: err?.response?.data.message,
                     });
                   } else {
                     console.error(err);

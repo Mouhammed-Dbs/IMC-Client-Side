@@ -21,12 +21,12 @@ const isUserLogged = async () => {
   return { error: true };
 };
 
+
 const loginUser = async (email, password) => {
   try {
     const res = await axios.get(
       `${process.env.BASE_API_URL}/user/login?email=${email}&password=${password}`
     );
-    console.log(res.data.token);
     return res.data;
   } catch (error) {
     throw error;
