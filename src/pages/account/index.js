@@ -1,7 +1,22 @@
 import DoctorCard from "@/components/DoctorCard";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { Spinner } from "@nextui-org/react";
+import { getDoctors } from "../../../public/global_functions/doctor";
 
 export default function Index() {
+  const [sessionsUser, setSessionsUser] = useState([]);
+  const [loading, setLaoding] = useState(true);
+  useEffect(() => {
+    getDoctors()
+      .then((res) => {
+        if (!res.error) setSessionsUser(res.data);
+        setLaoding(false);
+      })
+      .catch((err) => {
+        setLaoding(false);
+      });
+  }, []);
   return (
     <div className="bg-slate-100 h-screen overflow-y-scroll no-scrollbar pb-24">
       <div className="bg-slate-200 md:flex p-10">
@@ -22,28 +37,20 @@ export default function Index() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center pb-10 px-4 md:px-10 py-5">
-        <DoctorCard
-          name="yossef abras"
-          username="@yossefabras"
-          des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!"
-        />
-        <DoctorCard
-          name="aaaa"
-          username="@yossefaaabras"
-          des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!"
-        />
-        <DoctorCard
-          name="yossef abras"
-          username="@yossefabras"
-          des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!"
-        />
-        <DoctorCard
-          name="yossef abras"
-          username="@yossefabras"
-          des=" Frontend developer and UI/UX enthusiast. Join me on this coding adventure!"
-        />
-      </div>
+      {!loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center pb-10 px-4 md:px-10 py-5">
+          {sessionsUser.map((doctor) => (
+            <DoctorCard
+              key={doctor._id}
+              name={doctor.name}
+              username={doctor.username}
+              des={doctor.description}
+            />
+          ))}
+        </div>
+      ) : (
+        <Spinner />
+      )}
     </div>
   );
 }
