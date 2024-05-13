@@ -6,7 +6,8 @@ import { useRouter } from "next/router";
 export const MainContext = createContext();
 export default function MainLayout(props) {
   const router = useRouter();
-  const [userInfo, setUserInfo] = useState(true);
+  const [mount, setMount] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
   const [pageLoading, setPageLoading] = useState(true);
 
   useEffect(() => {
@@ -16,6 +17,7 @@ export default function MainLayout(props) {
           router.replace("/login");
         } else {
           setUserInfo(result.data.user);
+          setMount(true);
           setPageLoading(false);
         }
       })
@@ -32,12 +34,19 @@ export default function MainLayout(props) {
       </div>
     );
   }
+  if (!mount)
+    return (
+      <div className="w-full h-screen flex flex-col items-center justify-center py-5">
+        <p className="text-2xl">الرجاء الإنتظار..</p>
+        <Spinner />
+      </div>
+    );
 
   return (
     <div className="w-screen fixed">
       <MainNavbarNavbar />
       <main className="w-full h-full">
-        <MainContext.Provider value={userInfo}>
+        <MainContext.Provider value={{ userInfo, setUserInfo }}>
           {props.children}
         </MainContext.Provider>
       </main>
