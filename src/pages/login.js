@@ -60,7 +60,7 @@ export default function Login() {
                   const res = await loginUser(inputLoginEmail, inputLoginPass);
                   if (!res.error) {
                     localStorage.setItem("user-token", res.token);
-                    router.replace("/account");
+                    router.push("/account");
                   } else {
                     setAlert({ error: res.error, message: res.message });
                     console.log(res.message);
@@ -122,7 +122,7 @@ export default function Login() {
                   );
                   if (!res.error) {
                     localStorage.setItem("user-token", res.token);
-                    router.replace("/account");
+                    router.push("/account");
                   } else {
                     setAlert({ error: res.error, message: res.message });
                     console.log(res.message);

@@ -11,21 +11,21 @@ export default function Index() {
     getDoctors()
       .then((res) => {
         if (res.error == false) setSessionsUser(res.data);
-        // setLaoding(false);
+        setLaoding(false);
       })
       .catch((err) => {
-        // setLaoding(false);
+        setLaoding(false);
       });
   }, []);
   return (
     <div className="bg-slate-100 h-screen overflow-y-scroll no-scrollbar pb-24">
-      <div className="bg-slate-200 md:flex p-10">
+      <div className="bg-slate-200 md:flex p-10 w-full">
         <Image
           width={4000}
           height={3000}
-          src="/image/image.png"
+          src="/image/mainimg.png"
           alt="Description of the image"
-          className="self-center object-fill w-fit h-fit md:h-80 pb-1 rounded-lg"
+          className="self-center  w-fit h-64 md:h-80 pb-1 rounded-lg"
         />
         <div className="h-fit w-full self-center py-9 md:px-6 rounded-xl">
           <p className="text-2xl">

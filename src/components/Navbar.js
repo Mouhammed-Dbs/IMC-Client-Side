@@ -16,17 +16,17 @@ export default function MNavbar() {
   ];
   return (
     // className = "bg-slate-700 text-white p-4 flex items-center justify-between sticky w-full top-0"
-    <Navbar className="bg-slate-700 text-white">
+    <Navbar className="bg-white shadow-xs drop-shadow-lg shadow-blue-300">
       <NavbarContent justify="start">
         <NavbarMenuToggle className="sm:hidden" />
         <NavbarBrand className="gap-2">
           <Image src={'/image/logo/logo-192.png'} width={1200} height={1200} alt={'IMC logo'} className="w-10 h-10" />
-          <p className="flex gap-1 text-xl md:text-2xl font-bold min-w-max" onClick={() => { router.replace("./") }}>IMC</p>
+          <p className="flex gap-1 text-xl md:text-2xl font-bold min-w-max text-blue-800" onClick={() => { router.replace("./") }}>IMC</p>
         </NavbarBrand>
 
       </NavbarContent>
 
-      <NavbarContent className="hidden md:flex gap-1 md:gap-4 justify-end mr-4 md:mr-10 md:text-lg">
+      <NavbarContent className="hidden md:flex flex-row-reverse gap-1 md:gap-4 justify-end mr-4 md:mr-10 md:text-lg">
         <NavbarItem>
           <Link
             href="/"
@@ -36,7 +36,7 @@ export default function MNavbar() {
                 : "hover:text-sky-500"
             }
           >
-            HOME
+            الصفحة الرئيسية
           </Link>
         </NavbarItem>
         <NavbarItem>
@@ -48,7 +48,7 @@ export default function MNavbar() {
                 : "hover:text-sky-500"
             }
           >
-            ABOUT US
+            حول الموقع
           </Link>
         </NavbarItem>
         <NavbarItem>
@@ -60,7 +60,7 @@ export default function MNavbar() {
                 : "hover:text-sky-500"
             }
           >
-            CONTACTS
+            تواصل معنا
           </Link>
         </NavbarItem>
 

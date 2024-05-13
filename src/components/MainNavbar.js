@@ -1,8 +1,13 @@
 "use client";
 
+import { Button } from "@nextui-org/react";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { CgProfile } from "react-icons/cg";
+
 
 export default function MainNavbarNavbar() {
+  const router = useRouter();
   return (
     <header className="sticky bg-slate-700 text-white py-3 px-4 flex items-center justify-between w-full border-b-1 border-slate-300 shadow-md">
       <div className="flex ">
@@ -10,7 +15,14 @@ export default function MainNavbarNavbar() {
         <h1 className="text-lg md:text-2xl font-bold self-center px-2 min-w-max">Chat AI</h1>
       </div>
 
-      <div className="flex w-11 h-11  md:gap-6 rounded-full border-2 items-center p-2">info</div>
+      <Button className="flex rounded-full bg-inherit p-0 px-4 w-fit h-9 text-white text-lg"
+        onClick={() => {
+          router.push('/account/profile')
+        }}
+      >
+        <CgProfile className="text-3xl" />
+        <p className="pb-1">yossef</p>
+      </Button>
 
     </header>
   );
