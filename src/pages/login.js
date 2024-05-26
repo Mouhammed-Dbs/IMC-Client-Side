@@ -44,7 +44,7 @@ export default function Login() {
   }
   return (
     <div className="flex flex-col items-center relative top-16 w-full flex-1 px-5 md:px-20 text-center">
-      <div className="bg-white rounded-2xl shadow-2xl flex flex-grow w-full md:w-2/3 max-w-4xl ">
+      <div className="bg-white rounded-2xl shadow-2xl flex justify-center flex-grow w-full max-w-4xl max-w-11/12 md:max-w-[700px]">
         <div className="w_full md:w-3/5 p-5">
           <h1 className="text-4xl font-bold text-center mt-5 text-black ">
             {isLoginForm ? "Login" : "Sign Up"}
@@ -52,7 +52,7 @@ export default function Login() {
           <div className="border-2 w-10 border-black inline-block mt-5"></div>
           {isLoginForm ? (
             <form
-              className="max-w-md mx-auto mt-2 p-3"
+              className="max-w-md mx-auto p-3 mt-10"
               onSubmit={async (e) => {
                 e.preventDefault();
                 try {
@@ -96,7 +96,7 @@ export default function Login() {
               />
               <Button
                 isDisabled={!(inputLoginEmail && inputLoginPass) || loading}
-                className="hover:bg-slate-700 border-2 border-slate-700 hover:border-slate-500 text-slate-700 hover:text-white font-bold py-2 px-4 rounded-large mt-5"
+                className="bg-blue-500 text-white hover:text-blue-500 hover:bg-white hover:border-2 hover:border-blue-500 font-bold py-2 px-4 rounded-large mt-5"
                 type="submit"
               >
                 {loading ? "Login..." : "Login"}
@@ -210,7 +210,7 @@ export default function Login() {
               </div>
               <Button
                 isDisabled={loading}
-                className="hover:bg-slate-700 border-2 border-slate-700 hover:border-slate-500 text-slate-700 hover:text-white font-bold py-2 px-4 rounded-large mt-5"
+                className="bg-blue-500 text-white hover:text-blue-500 hover:bg-white hover:border-2 hover:border-blue-500 font-bold py-2 px-4 rounded-large mt-5"
                 type="submit"
               >
                 {loading ? "Signing.." : "Signup"}
@@ -221,14 +221,14 @@ export default function Login() {
             </form>
           )}
         </div>
-        <div className=" md:w-2/3 md-h bg-slate-700 text-white rounded-tr-2xl py-36 px-12 hidden md:block">
+        <div className=" md:w-2/3 md-h bg-blue-500 text-white rounded-tr-2xl py-36 px-12 hidden md:block">
           <h2 className="text-3xl font-bold mb-2">Hello Frind</h2>
           <span className="border-1 w-20 border-white inline-block mb-2"></span>
           <p>
             {isLoginForm ? "Don't have accont?" : "You have alerdy account"}
           </p>
           <button
-            className="border-white font-bold border-2 rounded-large px-5 py-2 mt-5 hover:bg-slate-100 hover:text-slate-700 hover:border-slate-500"
+            className="border-white font-bold border-2 rounded-large px-5 py-2 mt-5 hover:bg-white hover:text-blue-500 "
             onClick={() => {
               setIsLoginForm(!isLoginForm);
               setAlert({ error: false, message: "" });

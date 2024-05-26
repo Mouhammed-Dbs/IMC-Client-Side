@@ -34,28 +34,28 @@ export default function Profile({ user }) {
             <div className="flex flex-col gap-2 mx-10 mt-4">
               <p className="flex gap-2 font-bold">
                 <label>البريد الإلكتروني:</label>
-                <span className="text-gray-600">{userInfo.email}</span>
+                <span className="text-gray-600">{userInfo?.email}</span>
               </p>
               <p className="flex gap-2 font-bold">
                 <label>الجنس:</label>
-                <span className="text-gray-600">{userInfo.gender}</span>
+                <span className="text-gray-600">{userInfo?.gender}</span>
               </p>
               <p className="flex gap-2 font-bold">
                 <label>العمر:</label>
-                <span className="text-gray-600">{userInfo.age}</span>
+                <span className="text-gray-600">{userInfo?.age}</span>
               </p>
             </div>
           </div>
           <div className="flex w-full">
             <div className="w-1/3 p-3 text-center">
-              <p className="text-2xl">{userInfo.name}</p>
-              <p className="text-lg text-gray-600">{userInfo.username}</p>
+              <p className="text-2xl">{userInfo?.name}</p>
+              <p className="text-lg text-gray-600">{userInfo?.username}</p>
             </div>
             <Button
-              className="block mr-auto mt-auto text-lg bg-slate-700 text-white px-8"
+              className="block mr-auto mt-auto text-lg bg-blue-500 text-white hover:text-blue-500 hover:bg-white hover:border-2 hover:border-blue-500 px-8"
               radius="full"
             >
-              Edit
+              تعديل
             </Button>
           </div>
         </Card>
@@ -77,7 +77,7 @@ export default function Profile({ user }) {
               order={4}
               doctorName={"Gazwan"}
               statusFinished={false}
-              progress={"15"}
+              progress={"4"}
               creationDate={"1/2/2012"}
               finishingDate={"1/8/2012"}
             />

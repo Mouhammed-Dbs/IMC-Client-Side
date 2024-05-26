@@ -65,7 +65,7 @@ export default function Home() {
 
       {!loading ? (
         <Button
-          className={`rounded-lg bg-white shadow-md border-2 border-blue-800 py-2 px-4 mx-1 font-bold mt-10 text-lg text-blue-800`}
+          className={`rounded-lg bg-blue-500 shadow-md py-2 px-4 mx-1  mt-10 text-lg text-white`}
           onClick={() => {
             if (isLogin) router.push("/account");
             else router.replace("/login");
@@ -77,6 +77,7 @@ export default function Home() {
       ) : (
         <p className="mt-10">الرجاء الانتظار..</p>
       )}
+
     </div>
 
     // </div>

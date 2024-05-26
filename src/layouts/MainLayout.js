@@ -12,21 +12,20 @@ export default function MainLayout(props) {
 
   useEffect(() => {
     setMount(true);
-    setPageLoading(false);
-    // isUserLogged()
-    //   .then((result) => {
-    //     if (result.error) {
-    //       router.replace("/login");
-    //     } else {
-    //       setUserInfo(result.data.user);
-    //       setMount(true);
-    //       setPageLoading(false);
-    //     }
-    //   })
-    //   .catch(async (err) => {
-    //     await router.replace("/login");
-    //     setPageLoading(false);
-    //   });
+    isUserLogged()
+      .then((result) => {
+        if (result.error) {
+          router.replace("/login");
+        } else {
+          setUserInfo(result.data.user);
+          setMount(true);
+          setPageLoading(false);
+        }
+      })
+      .catch(async (err) => {
+        await router.replace("/login");
+        setPageLoading(false);
+      });
   }, []);
 
   if (pageLoading) {

@@ -10,8 +10,8 @@ import {
 import Image from "next/image";
 export default function DoctorCard({ name, username, gender, des, srcImg }) {
   return (
-    <Card className="m-2 min-w-[200px] md:min-w-[350px] p-4">
-      <CardHeader className="flex justify-center items-center gap-3">
+    <Card className="m-2 w-full min-w-[170px] p-4">
+      <CardHeader className="flex justify-center items-center gap-4">
         <div className="">
           <div className="rounded-full border-2 border-blue-500 p-1 w-fit block m-auto">
             <Image
@@ -37,7 +37,7 @@ export default function DoctorCard({ name, username, gender, des, srcImg }) {
       </CardBody>
       <CardFooter className="gap-3">
         <Button
-          className="block m-auto text-lg bg-blue-500 text-white px-8"
+          className="block m-auto text-lg bg-blue-500 text-white hover:text-blue-500 hover:bg-white hover:border-2 hover:border-blue-500 px-8"
           radius="full"
         >
           Select
