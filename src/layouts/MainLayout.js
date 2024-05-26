@@ -11,20 +11,22 @@ export default function MainLayout(props) {
   const [pageLoading, setPageLoading] = useState(true);
 
   useEffect(() => {
-    isUserLogged()
-      .then((result) => {
-        if (result.error) {
-          router.replace("/login");
-        } else {
-          setUserInfo(result.data.user);
-          setMount(true);
-          setPageLoading(false);
-        }
-      })
-      .catch(async (err) => {
-        await router.replace("/login");
-        setPageLoading(false);
-      });
+    setMount(true);
+    setPageLoading(false);
+    // isUserLogged()
+    //   .then((result) => {
+    //     if (result.error) {
+    //       router.replace("/login");
+    //     } else {
+    //       setUserInfo(result.data.user);
+    //       setMount(true);
+    //       setPageLoading(false);
+    //     }
+    //   })
+    //   .catch(async (err) => {
+    //     await router.replace("/login");
+    //     setPageLoading(false);
+    //   });
   }, []);
 
   if (pageLoading) {
@@ -44,8 +46,8 @@ export default function MainLayout(props) {
 
   return (
     <div className="w-screen fixed">
-      <MainNavbarNavbar />
-      <main className="w-full h-full">
+      <MainNavbarNavbar name={userInfo?.name} />
+      <main className="w-full h-full" style={{ direction: "rtl" }}>
         <MainContext.Provider value={{ userInfo, setUserInfo }}>
           {props.children}
         </MainContext.Provider>

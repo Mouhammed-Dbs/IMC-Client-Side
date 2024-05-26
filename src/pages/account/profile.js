@@ -24,12 +24,9 @@ export default function Profile({ user }) {
     });
   });
   return (
-    <div
-      className="max-h-screen flex flex-col gap-10 overflow-y-scroll pb-20 bg-slate-200"
-      style={{ direction: "rtl" }}
-    >
+    <div className="max-h-screen flex flex-col gap-10 overflow-y-scroll pb-20 bg-slate-200">
       <div className="flex flex-col m-auto rounded-lg mt-8">
-        <Card className="mx-auto px-10 py-5 min-w-[700px] rounded-xl shadow-md">
+        <Card className="mx-auto px-10 py-5 min-w-[800px] rounded-xl shadow-md">
           <div className="flex w-full">
             <div className="w-1/3 p-2">
               <Avatar className="block m-auto w-20 h-20" radius="full" />
@@ -68,9 +65,9 @@ export default function Profile({ user }) {
         <div className="flex items-center justify-center">
           <Button
             className="w-9 h-9 rounded-full min-w-9 text-lg p-0 mx-2"
-            onClick={() => handleScroll("l")}
+            onClick={() => handleScroll("r")}
           >
-            <IoIosArrowBack />
+            <IoIosArrowForward />
           </Button>
           <div
             class="flex w-full gap-4 md:gap-5 overflow-x-scroll scroll-smooth py-2"
@@ -111,9 +108,9 @@ export default function Profile({ user }) {
           </div>
           <Button
             className="w-9 h-9 rounded-full min-w-9 text-lg p-0 mx-2"
-            onClick={() => handleScroll("r")}
+            onClick={() => handleScroll("l")}
           >
-            <IoIosArrowForward />
+            <IoIosArrowBack />
           </Button>
         </div>
       </div>
