@@ -1,8 +1,9 @@
 import SessionCard from "@/components/SessionCard";
 import { MainContext } from "@/layouts/MainLayout";
-import { Avatar, Button, Card } from "@nextui-org/react";
+import { Avatar, Button, Card, Spinner } from "@nextui-org/react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { getUserSessions } from "../../../public/global_functions/session";
 
 export default function Profile({ user }) {
   const ScrollRef = useRef();
@@ -16,6 +17,19 @@ export default function Profile({ user }) {
     ScrollRef.current.scrollLeft += scrollAmount;
   };
   const { userInfo } = useContext(MainContext);
+  const [sessions, setSessions] = useState([]);
+  const [loadingPage, setLoadingPage] = useState(true);
+
+  const getSessions = async () => {
+    try {
+      const res = await getUserSessions();
+      if (!res.error) setSessions(res.data);
+      setLoadingPage(false);
+    } catch (err) {
+      setLoadingPage(false);
+    }
+  };
+
   useEffect(() => {
     setWidthScreen(document.documentElement.clientWidth);
     window.addEventListener("resize", () => {
@@ -23,6 +37,13 @@ export default function Profile({ user }) {
       setWidthScreen(viewportWidth);
     });
   });
+
+  useEffect(() => {
+    getSessions();
+  }, []);
+
+  if (loadingPage) return <Spinner />;
+
   return (
     <div className="max-h-screen flex flex-col gap-10 overflow-y-scroll pb-20 bg-slate-200">
       <div className="flex flex-col m-auto rounded-lg mt-8">
@@ -73,38 +94,17 @@ export default function Profile({ user }) {
             class="flex w-full gap-4 md:gap-5 overflow-x-scroll scroll-smooth py-2"
             ref={ScrollRef}
           >
-            <SessionCard
-              order={4}
-              doctorName={"Gazwan"}
-              statusFinished={false}
-              progress={"4"}
-              creationDate={"1/2/2012"}
-              finishingDate={"1/8/2012"}
-            />
-            <SessionCard
-              order={3}
-              doctorName={"Gazwan"}
-              statusFinished={true}
-              progress={"15"}
-              creationDate={"1/2/2012"}
-              finishingDate={"1/8/2012"}
-            />
-            <SessionCard
-              order={2}
-              doctorName={"Gazwan"}
-              statusFinished={true}
-              progress={"15"}
-              creationDate={"1/2/2012"}
-              finishingDate={"1/8/2012"}
-            />
-            <SessionCard
-              order={1}
-              doctorName={"Gazwan"}
-              statusFinished={true}
-              progress={"15"}
-              creationDate={"1/2/2012"}
-              finishingDate={"1/8/2012"}
-            />
+            {sessions.map((session) => (
+              <SessionCard
+                key={session.order}
+                order={session.order}
+                doctorName={session.doctorName}
+                statusFinished={session.statusFinished}
+                progress={session.progress}
+                creationDate={session.creationDate}
+                finishingDate={session.finishingDate}
+              />
+            ))}
           </div>
           <Button
             className="w-9 h-9 rounded-full min-w-9 text-lg p-0 mx-2"

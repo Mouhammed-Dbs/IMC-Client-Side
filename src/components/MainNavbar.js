@@ -8,7 +8,7 @@ import { CgProfile } from "react-icons/cg";
 export default function MainNavbarNavbar({ name }) {
   const router = useRouter();
   return (
-    <header className="sticky bg-white text-blue-500 py-3 px-32 flex items-center justify-between w-full border-b-1 border-slate-300 shadow-md">
+    <header className="sticky bg-white text-blue-500 py-3 md:px-32 px-8 flex items-center justify-between w-full border-b-1 border-slate-300 shadow-md">
       <div className="flex ">
         <h1
           className="text-lg md:text-3xl font-bold self-center px-2 min-w-max cursor-pointer"

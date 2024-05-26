@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const getSessions = async () => {
+const getUserSessions = async () => {
   let token = localStorage.getItem("user-token");
   if (token) {
     try {
-      const res = await axios.get(`${process.env.BASE_API_URL}/session`, {
+      const res = await axios.get(`${process.env.BASE_API_URL}/sessions`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -19,4 +19,52 @@ const getSessions = async () => {
   return { error: true };
 };
 
-export { getSessions };
+const createSession = async (doctorId, typeQues) => {
+  let token = localStorage.getItem("user-token");
+  if (token) {
+    try {
+      const res = await axios.post(
+        `${process.env.BASE_API_URL}/sessions/create`,
+        {
+          doctorId,
+          typeQues,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return res.data;
+    } catch (error) {
+      if (error?.response.data.msg === "Unauthorized Error")
+        localStorage.removeItem("user-token");
+      throw error;
+    }
+  }
+  return { error: true };
+};
+
+const getUserSession = async (sessionId) => {
+  let token = localStorage.getItem("user-token");
+  if (token) {
+    try {
+      const res = await axios.get(
+        `${process.env.BASE_API_URL}/sessions/${sessionId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return res.data;
+    } catch (error) {
+      // if (error?.response.data.msg === "Unauthorized Error")
+      //   localStorage.removeItem("user-token");
+      throw error;
+    }
+  }
+  return { error: true };
+};
+
+export { getUserSessions, getUserSession, createSession };
