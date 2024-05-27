@@ -80,7 +80,7 @@ export default function Profile({ user }) {
           </div>
         </Card>
       </div>
-      <div className="flex flex-col  m-auto pb-10 max-w-[700px] rounded-lg">
+      <div className="flex flex-col  m-auto pb-20 max-w-[700px] rounded-lg">
         <h1 class="flex p-3 text-2xl">جلساتك</h1>
         <div className="flex items-center justify-center">
           <Button
