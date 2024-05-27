@@ -53,7 +53,7 @@ export default function Profile({ user }) {
               <Avatar className="block m-auto w-20 h-20" radius="full" />
               <div className="mt-4 p-3 text-center">
                 <p className="text-2xl">{userInfo?.name}</p>
-                <p className="text-lg text-gray-600">{userInfo?.username}</p>
+                <p className="text-lg text-gray-600">@{userInfo?.username}</p>
               </div>
             </div>
             <Divider className="md:hidden" />
