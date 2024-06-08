@@ -13,7 +13,6 @@ export default function TypingText(props) {
         };
         const arr = [...typingSent];
         setTypingSent(arr);
-        console.log(typingSent);
         i++;
       } else {
         clearInterval(typingInterval);
@@ -31,9 +30,9 @@ export default function TypingText(props) {
   return (
     <div>
       <span className={props.className}>
-        {typingSent.map((sent) => (
-          <>
-            {sent?.font === 0 && <br />}
+        {typingSent.map((sent, index) => (
+          <span key={index}>
+            {sent?.font === 0 && index === typingSent.length - 1 ? "" : <br />}
             <p
               className={
                 sent?.font === 1
@@ -43,7 +42,7 @@ export default function TypingText(props) {
             >
               {sent?.text}
             </p>
-          </>
+          </span>
         ))}
       </span>
     </div>

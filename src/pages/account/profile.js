@@ -80,39 +80,42 @@ export default function Profile({ user }) {
           </div>
         </Card>
       </div>
-      <div className="flex flex-col  m-auto pb-20 max-w-[700px] rounded-lg">
-        <h1 class="flex p-3 text-2xl">جلساتك</h1>
-        <div className="flex items-center justify-center">
-          <Button
-            className="w-9 h-9 bg-white hover:bg-blue-500 rounded-full min-w-9 text-lg p-0 mx-2"
-            onClick={() => handleScroll("r")}
-          >
-            <IoIosArrowForward className="text-blue-500 hover:text-white" />
-          </Button>
-          <div
-            class="flex w-[300px] md:w-full gap-4 md:gap-5 overflow-x-scroll scroll-smooth py-2"
-            ref={ScrollRef}
-          >
-            {sessions.map((session) => (
-              <SessionCard
-                key={session.order}
-                order={session.order}
-                doctorName={session.doctorName}
-                statusFinished={session.statusFinished}
-                progress={session.progress}
-                creationDate={session.creationDate}
-                finishingDate={session.finishingDate}
-              />
-            ))}
+      {sessions.length > 0 && (
+        <div className="flex flex-col  m-auto pb-20 max-w-[700px] rounded-lg">
+          <h1 class="flex p-3 text-2xl">جلساتك</h1>
+          <div className="flex items-center justify-center">
+            <Button
+              className="w-9 h-9 bg-white hover:bg-blue-500 rounded-full min-w-9 text-lg p-0 mx-2"
+              onClick={() => handleScroll("r")}
+            >
+              <IoIosArrowForward className="text-blue-500 hover:text-white" />
+            </Button>
+            <div
+              class="flex w-[300px] md:w-full gap-4 md:gap-5 overflow-x-scroll scroll-smooth py-2"
+              ref={ScrollRef}
+            >
+              {sessions.map((session) => (
+                <SessionCard
+                  key={session.id}
+                  id={session.id}
+                  order={session.order}
+                  doctorName={session.doctorName}
+                  statusFinished={session.statusFinished}
+                  progress={session.progress}
+                  creationDate={session.creationDate}
+                  finishingDate={session.finishingDate}
+                />
+              ))}
+            </div>
+            <Button
+              className="w-9 h-9 bg-white hover:bg-blue-500 rounded-full min-w-9 text-lg p-0 mx-2"
+              onClick={() => handleScroll("l")}
+            >
+              <IoIosArrowBack className="text-blue-500 hover:text-white" />
+            </Button>
           </div>
-          <Button
-            className="w-9 h-9 bg-white hover:bg-blue-500 rounded-full min-w-9 text-lg p-0 mx-2"
-            onClick={() => handleScroll("l")}
-          >
-            <IoIosArrowBack className="text-blue-500 hover:text-white" />
-          </Button>
         </div>
-      </div>
+      )}
     </div>
   );
 }

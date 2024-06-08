@@ -67,4 +67,27 @@ const getUserSession = async (sessionId) => {
   return { error: true };
 };
 
-export { getUserSessions, getUserSession, createSession };
+const addMessage = async (sessionId, message) => {
+  let token = localStorage.getItem("user-token");
+  if (token) {
+    try {
+      const res = await axios.post(
+        `${process.env.BASE_API_URL}/sessions/${sessionId}/add-message`,
+        {
+          message,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return res.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+  return { error: true };
+};
+
+export { getUserSessions, getUserSession, createSession, addMessage };
