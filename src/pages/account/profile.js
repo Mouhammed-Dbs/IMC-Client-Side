@@ -1,13 +1,21 @@
 import SessionCard from "@/components/SessionCard";
 import { MainContext } from "@/layouts/MainLayout";
-import { Avatar, Button, Card, Divider, Spinner } from "@nextui-org/react";
+import { Avatar, Button, Card, Divider, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Spinner, useDisclosure } from "@nextui-org/react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { getUserSessions } from "../../../public/global_functions/session";
+import EditProfil from "@/components/utils/EditProfile";
+import { TbCameraPlus } from "react-icons/tb";
+import { useRouter } from "next/router";
 
 export default function Profile({ user }) {
+  const router = useRouter();
   const ScrollRef = useRef();
   const [widthScreen, setWidthScreen] = useState("");
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { userInfo } = useContext(MainContext);
+  const [sessions, setSessions] = useState([]);
+  const [loadingPage, setLoadingPage] = useState(true);
   const handleScroll = (type) => {
     let scrollAmount = 0;
     scrollAmount = widthScreen > 660 ? 665 : 300;
@@ -16,14 +24,14 @@ export default function Profile({ user }) {
     }
     ScrollRef.current.scrollLeft += scrollAmount;
   };
-  const { userInfo } = useContext(MainContext);
-  const [sessions, setSessions] = useState([]);
-  const [loadingPage, setLoadingPage] = useState(true);
-
+  const getNumOpenedSessions = (ses) => ses.filter(session => session.statusFinished === false);
   const getSessions = async () => {
     try {
       const res = await getUserSessions();
-      if (!res.error) setSessions(res.data);
+      if (!res.error) {
+        setSessions(res.data);
+        getNumOpenedSessions(res.data)
+      }
       setLoadingPage(false);
     } catch (err) {
       setLoadingPage(false);
@@ -42,18 +50,76 @@ export default function Profile({ user }) {
     getSessions();
   }, []);
 
-  if (loadingPage) return <Spinner />;
+  if (loadingPage) return
+  <div className="w-screen h-screen flex  justify-center items-center py-5">
+    <Spinner />
+  </div>;
 
   return (
     <div className="max-h-screen flex flex-col gap-10 overflow-y-scroll pb-20 bg-slate-200">
+      <Modal style={{ direction: "rtl" }}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      // placement="top-center"
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1 mr-2">تعديل المعلومات الشخصية </ModalHeader>
+              <ModalBody>
+                <Input
+                  defaultValue={userInfo?.name}
+                  autoFocus
+                  label="الاسم"
+                  type="text"
+                  variant="bordered"
+
+                />
+                <Input
+                  defaultValue={userInfo?.username}
+                  autoFocus
+                  label="اسم المستخدم "
+                  variant="bordered"
+                />
+                <Input
+                  defaultValue={userInfo?.email}
+                  autoFocus
+                  label="ايميل"
+                  variant="bordered"
+                />
+                <Input
+
+                  label="كلمة السر"
+                  type="password"
+                  variant="bordered"
+                />
+
+              </ModalBody>
+              <ModalFooter>
+
+                <Button color="danger" variant="flat" onPress={onClose}>
+                  اغلاق
+                </Button>
+                <Button color="primary" onPress={onClose} className=" hover:text-blue-500 hover:bg-white hover:border-2 hover:border-blue-500 px-8">
+                  تعديل
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <div className="flex flex-col m-auto rounded-lg mt-8">
         <Card className="mx-auto px-10 py-5 md:min-w-[800px] rounded-xl shadow-md">
           <div className="md:flex w-full">
             <div className="md:w-3/5 flex flex-col justify-center items-center p-2">
-              <Avatar className="block m-auto w-20 h-20" radius="full" />
+              <div className="relative block m-auto w-24 h-24">
+                <Avatar isBordered src="/image/infouser.jpg" className=" block w-20 h-20" radius="full" />
+                <Button className="absolute bg-white/90 min-w-unit-0 w-6 h-6 bottom-4 left-3 z-50 px-0 rounded-full" size="sm" ><TbCameraPlus className="text-xl text-blue-500" /></Button>
+              </div>
+
               <div className="mt-4 p-3 text-center">
                 <p className="text-2xl">{userInfo?.name}</p>
-                <p className="text-lg text-gray-600">@{userInfo?.username}</p>
+                <p style={{ direction: "ltr" }} className="text-lg text-gray-600">@{userInfo?.username}</p>
               </div>
             </div>
             <Divider className="md:hidden" />
@@ -70,12 +136,20 @@ export default function Profile({ user }) {
                 <label>العمر:</label>
                 <span className="text-gray-600">{userInfo?.age}</span>
               </p>
-              <Button
-                className="block w-fit mt-2 mx-auto md:mx-0 md:mr-auto md:mt-auto text-lg bg-blue-500 text-white hover:text-blue-500 hover:bg-white hover:border-2 hover:border-blue-500 px-8"
-                radius="full"
-              >
-                تعديل
-              </Button>
+              <div className="flex gap-1 mt-2 mx-auto md:mx-0 md:mr-auto md:mt-auto">
+                {sessions.length == 0 && getNumOpenedSessions == 0 &&
+                  <Button
+                    className="block w-30 text-lg bg-blue-500 text-white hover:text-blue-500 hover:bg-white hover:border-2 hover:border-blue-500 px-8"
+                    onClick={() => { router.push("/account") }} >
+                    إنشاء جلسة
+                  </Button>}
+                <Button
+                  className="block w-36 text-lg  text-blue-500 bg-white border-2 border-blue-500 hover:text-white hover:bg-blue-500 hover:border-2 hover:border-white px-8"
+                  onPress={onOpen} color="primary">
+                  تعديل
+                </Button>
+              </div>
+
             </div>
           </div>
         </Card>

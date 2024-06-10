@@ -95,7 +95,10 @@ export default function Chat() {
     setInputMessage("");
   };
 
-  if (loadingPage) return <Spinner />;
+  if (loadingPage) return
+  <div className="w-screen h-screen flex  justify-center items-center py-5">
+    <Spinner />
+  </div>;;
   if (resSession.error) return <p>{resSession.message}</p>;
 
   return (
