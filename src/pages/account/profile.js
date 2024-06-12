@@ -134,7 +134,7 @@ export default function Profile({ user }) {
                   radius="full"
                 />
                 <Button
-                  className="absolute bg-white/90 min-w-unit-0 w-6 h-6 bottom-4 left-3 z-50 px-0 rounded-full"
+                  className="absolute bg-white/90 min-w-fit w-6 h-6 bottom-4 left-3 z-50 px-0 rounded-full"
                   size="sm"
                 >
                   <TbCameraPlus className="text-xl text-blue-500" />
