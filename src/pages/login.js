@@ -63,7 +63,6 @@ export default function Login() {
                     router.push("/account");
                   } else {
                     setAlert({ error: res.error, message: res.message });
-                    console.log(res.message);
                   }
                   setLoading(false);
                 } catch (err) {
@@ -75,7 +74,7 @@ export default function Login() {
                       message: err?.response?.data.message,
                     });
                   } else {
-                    console.error(err);
+                    <p>{alert.message}</p>
                   }
                 }
               }}
@@ -101,9 +100,7 @@ export default function Login() {
               >
                 {loading ? "Login..." : "Login"}
               </Button>
-              {alert.error && (
-                <p className="text-red-500 mt-3">{alert.message}</p>
-              )}
+
             </form>
           ) : (
             <form
@@ -125,13 +122,12 @@ export default function Login() {
                     router.push("/account");
                   } else {
                     setAlert({ error: res.error, message: res.message });
-                    console.log(res.message);
+
                   }
                   setLoading(false);
                 } catch (err) {
                   setLoading(false);
                   if (err?.response?.status === 401) {
-                    console.log(err.response.data.message);
                     setAlert({
                       error: true,
                       message: err.response.data.message,
@@ -146,28 +142,30 @@ export default function Login() {
                 onChange={(e) => setInputSignName(e.target.value)}
                 className="w-full border border-gray-700 rounded px-3 py-1 mb-4"
                 type="text"
-                name="name"
+                name="namee"
                 placeholder="Name"
+                autocomplete="off"
               />
               <input
                 onChange={(e) => setInputSignUsername(e.target.value)}
                 className="w-full border border-gray-700 rounded px-3 py-1 mb-4"
                 type="text"
-                name="username"
+                name="usernamee"
                 placeholder="Username"
+                  autocomplete="off"
               />
               <input
                 onChange={(e) => setInputSignEmail(e.target.value)}
                 className="w-full border border-gray-700 rounded px-3 py-1 mb-4"
                 type="email"
-                name="email "
+                name="emaill "
                 placeholder="Email"
               />
               <input
                 onChange={(e) => setInputSignPass(e.target.value)}
                 className="w-full border border-gray-700 rounded px-3 py-1 mb-4"
                 type="password"
-                name="password"
+                name="passwordd"
                 placeholder="Password"
               />
               <div className="flex gap-5">
@@ -209,7 +207,10 @@ export default function Login() {
                 </Select>
               </div>
               <Button
-                isDisabled={loading}
+                isDisabled={!(inputsignName && inputsignEmail &&
+                  inputsignUsername &&
+                  inputsignPass &&
+                  inputSelectAge) || loading}
                 className="bg-blue-500 text-white hover:text-blue-500 hover:bg-white hover:border-2 hover:border-blue-500 font-bold py-2 px-4 rounded-large mt-5"
                 type="submit"
               >
@@ -218,6 +219,7 @@ export default function Login() {
               {alert.error && (
                 <p className="text-red-500 mt-3">{alert.message}</p>
               )}
+
             </form>
           )}
         </div>

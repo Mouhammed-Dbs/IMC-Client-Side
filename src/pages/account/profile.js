@@ -4,7 +4,6 @@ import { Avatar, Button, Card, Divider, Input, Modal, ModalBody, ModalContent, M
 import { useContext, useEffect, useRef, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { getUserSessions } from "../../../public/global_functions/session";
-import EditProfil from "@/components/utils/EditProfile";
 import { TbCameraPlus } from "react-icons/tb";
 import { useRouter } from "next/router";
 

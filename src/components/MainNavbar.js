@@ -4,9 +4,15 @@ import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { CgProfile } from "react-icons/cg";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 
 export default function MainNavbarNavbar({ name }) {
   const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem('user-token');
+    router.push('/login');
+  };
 
   return (
     <header className="sticky bg-white text-blue-500 py-3 md:px-32 px-8 flex items-center justify-between w-full border-b-1 border-slate-300 shadow-md">
@@ -25,6 +31,8 @@ export default function MainNavbarNavbar({ name }) {
         >
           IMC
         </h1>
+
+
       </div>
       {!router.pathname.endsWith("profile") && (
         <Button
@@ -37,6 +45,16 @@ export default function MainNavbarNavbar({ name }) {
           <p className="text-lg">{name}</p>
         </Button>
       )}
+      {router.pathname.endsWith("profile") && (<Button
+        onClick={handleLogout}
+        className="flex justify-center rounded-full px-3 bg-inherit  text-blue-500 hover:bg-blue-200/90"
+      >
+        <span className=" self-center text-medium">تسجيل خروج</span>
+        <RiLogoutCircleRLine className="text-lg  self-center text-red-500" />
+      </Button>
+      )}
+
     </header>
   );
 }
+
