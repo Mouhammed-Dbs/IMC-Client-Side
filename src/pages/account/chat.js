@@ -30,6 +30,8 @@ export default function Chat() {
   const addIsTypingForMessages = async (messages, isTyping = false) => {
     if (isTyping) {
       messages = await messages.map((message, index) => {
+        if (index === messages.length - 2 && message.sender === "ai")
+          return { ...message, isTyping: true };
         return { ...message, isTyping: index === messages.length - 1 };
       });
     } else {
@@ -95,10 +97,10 @@ export default function Chat() {
     setInputMessage("");
   };
 
-  if (loadingPage) return
+  if (loadingPage) return;
   <div className="w-screen h-screen flex  justify-center items-center py-5">
     <Spinner />
-  </div>;;
+  </div>;
   if (resSession.error) return <p>{resSession.message}</p>;
 
   return (
