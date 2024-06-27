@@ -133,7 +133,11 @@ export default function Chat() {
           {session.messages.map((message) => (
             <Message
               key={message._id}
-              type={message.sender === "ai" ? "receiver" : "sender"}
+              type={
+                message.sender === "ai" || message.sender === "ai-base"
+                  ? "receiver"
+                  : "sender"
+              }
               message={message.content}
               isTyping={message.isTyping}
             />

@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Select, SelectItem, Spinner } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
-import { isUserLogged, loginUser, registerUser } from "../../public/global_functions/auth";
+import {
+  isUserLogged,
+  loginUser,
+  registerUser,
+} from "../../public/global_functions/auth";
 
 export default function Login() {
   const router = useRouter();
@@ -29,7 +33,6 @@ export default function Login() {
         } else {
           setPageLoading(false);
         }
-
       })
       .catch(async (err) => {
         setPageLoading(false);
@@ -74,7 +77,7 @@ export default function Login() {
                       message: err?.response?.data.message,
                     });
                   } else {
-                    <p>{alert.message}</p>
+                    <p>{alert.message}</p>;
                   }
                 }
               }}
@@ -83,8 +86,8 @@ export default function Login() {
                 onChange={(e) => setInputLoginEmail(e.target.value)}
                 className="w-full border border-gray-700 rounded px-3 py-2 mb-4"
                 type="text"
-                name="username"
-                placeholder="username"
+                name="email"
+                placeholder="example@email.com"
               />
               <input
                 onChange={(e) => setInputLoginPass(e.target.value)}
@@ -100,7 +103,6 @@ export default function Login() {
               >
                 {loading ? "Login..." : "Login"}
               </Button>
-
             </form>
           ) : (
             <form
@@ -122,7 +124,6 @@ export default function Login() {
                     router.push("/account");
                   } else {
                     setAlert({ error: res.error, message: res.message });
-
                   }
                   setLoading(false);
                 } catch (err) {
@@ -152,7 +153,7 @@ export default function Login() {
                 type="text"
                 name="usernamee"
                 placeholder="Username"
-                  autocomplete="off"
+                autocomplete="off"
               />
               <input
                 onChange={(e) => setInputSignEmail(e.target.value)}
@@ -207,10 +208,15 @@ export default function Login() {
                 </Select>
               </div>
               <Button
-                isDisabled={!(inputsignName && inputsignEmail &&
-                  inputsignUsername &&
-                  inputsignPass &&
-                  inputSelectAge) || loading}
+                isDisabled={
+                  !(
+                    inputsignName &&
+                    inputsignEmail &&
+                    inputsignUsername &&
+                    inputsignPass &&
+                    inputSelectAge
+                  ) || loading
+                }
                 className="bg-blue-500 text-white hover:text-blue-500 hover:bg-white hover:border-2 hover:border-blue-500 font-bold py-2 px-4 rounded-large mt-5"
                 type="submit"
               >
@@ -219,7 +225,6 @@ export default function Login() {
               {alert.error && (
                 <p className="text-red-500 mt-3">{alert.message}</p>
               )}
-
             </form>
           )}
         </div>
