@@ -1,9 +1,9 @@
+import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/router";
+import { IoSend } from "react-icons/io5";
+import { Button, Progress, Spinner } from "@nextui-org/react";
 import Sidebar from "@/components/Sidebar";
 import Message from "@/components/utils/Message";
-import { IoSend } from "react-icons/io5";
-import { useRouter } from "next/router";
-import { useEffect, useState, useRef } from "react";
-import { Button, Progress, Spinner } from "@nextui-org/react";
 import {
   addMessage,
   getUserSession,
@@ -23,23 +23,20 @@ export default function Chat() {
     messages: [],
   });
   const [windowHeight, setWindowHeight] = useState(0);
+  const [typingIndex, setTypingIndex] = useState(0);
 
-  // Create a ref for the dummy element
   const dummyRef = useRef(null);
 
   const addIsTypingForMessages = async (messages, isTyping = false) => {
-    if (isTyping) {
-      messages = await messages.map((message, index) => {
-        if (index === messages.length - 2 && message.sender === "ai")
+    return messages.map((message, index) => {
+      if (isTyping) {
+        if (index === messages.length - 2 && message.sender === "ai") {
           return { ...message, isTyping: true };
+        }
         return { ...message, isTyping: index === messages.length - 1 };
-      });
-    } else {
-      messages = await messages.map((message) => {
-        return { ...message, isTyping: false };
-      });
-    }
-    return messages;
+      }
+      return { ...message, isTyping: false };
+    });
   };
 
   const getSession = async () => {
@@ -62,22 +59,37 @@ export default function Chat() {
     try {
       const res = await addMessage(query["sessionId"], inputMessage);
       setLoadingADD(false);
-      const session = res.data;
-      session.messages = await addIsTypingForMessages(session.messages, true);
-      if (!res.error) setSession(session);
+      const newSession = res.data;
+      newSession.messages = await addIsTypingForMessages(
+        newSession.messages,
+        true
+      );
+      if (!res.error) setSession(newSession);
+      setTypingIndex(
+        newSession.messages.length -
+          (newSession.messages.length - session.messages.length - 1)
+      );
     } catch (err) {
       setLoadingADD(false);
     }
   };
 
-  // Scroll to the bottom of the messages container when messages update
+  const handleSendMessage = (event) => {
+    event.preventDefault();
+    addNewMessage();
+    setInputMessage("");
+  };
+
+  const handleTypingComplete = () => {
+    setTypingIndex((prevIndex) => prevIndex + 1);
+  };
+
   useEffect(() => {
     if (dummyRef.current) {
       dummyRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [session.messages]);
+  }, [session.messages, typingIndex]);
 
-  // For calculate height screen
   useEffect(() => {
     const updateHeight = () => {
       setWindowHeight(window.innerHeight);
@@ -91,18 +103,13 @@ export default function Chat() {
     getSession();
   }, []);
 
-  const handleSendMessage = (event) => {
-    event.preventDefault();
-    addNewMessage();
-    setInputMessage("");
-  };
-
   if (loadingPage)
     return (
-      <div className="w-screen h-screen flex  justify-center items-center py-5">
+      <div className="w-screen h-screen flex justify-center items-center py-5">
         <Spinner />
       </div>
     );
+
   if (resSession.error) return <p>{resSession.message}</p>;
 
   return (
@@ -127,33 +134,39 @@ export default function Chat() {
       </div>
       <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
         <div
-          className={`flex flex-col gap-3 md:gap-6 p-4 overflow-y-auto md:px-60`}
+          className="flex flex-col gap-3 md:gap-6 p-4 overflow-y-auto md:px-60"
           style={{ height: windowHeight - 140 - 40 + "px" }}
         >
-          {session.messages.map((message) => (
-            <Message
-              key={message._id}
-              type={
-                message.sender === "ai" || message.sender === "ai-base"
-                  ? "receiver"
-                  : "sender"
-              }
-              message={message.content}
-              isTyping={message.isTyping}
-            />
-          ))}
-          <div className="mt-2 h-1" ref={dummyRef}></div>{" "}
-          {/* Add a dummy div */}
+          {session.messages.map(
+            (message, index) =>
+              ((index === typingIndex && message.isTyping) ||
+                message.isTyping === false) && (
+                <Message
+                  key={message._id}
+                  type={
+                    message.sender === "ai" || message.sender === "ai-base"
+                      ? "receiver"
+                      : "sender"
+                  }
+                  message={message.content}
+                  isTyping={index === typingIndex && message.isTyping}
+                  onTypingComplete={() => {
+                    message.isTyping = false;
+                    handleTypingComplete();
+                  }}
+                />
+              )
+          )}
+          <div className="mt-2 h-1" ref={dummyRef}></div>
         </div>
         <form
-          onSubmit={() => handleSendMessage(e)}
+          onSubmit={handleSendMessage}
           className="flex gap-5 p-4 border-t border-gray-200 md:px-64"
         >
           <Button
             type="submit"
             isDisabled={loadingADD}
             className="ml-2 rounded-full text-white p-2"
-            onClick={handleSendMessage}
           >
             <IoSend className="text-blue-500 hover:text-blue-400 w-7 h-7" />
           </Button>
