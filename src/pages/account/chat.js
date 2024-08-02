@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { IoSend } from "react-icons/io5";
 import { Button, Progress, Spinner } from "@nextui-org/react";
-import Sidebar from "@/components/Sidebar";
 import Message from "@/components/utils/Message";
 import {
   addMessage,
