@@ -158,25 +158,32 @@ export default function Chat() {
           )}
           <div className="mt-2 h-1" ref={dummyRef}></div>
         </div>
-        <form
-          onSubmit={handleSendMessage}
-          className="flex gap-5 p-4 border-t border-gray-200 md:px-64"
-        >
-          <Button
-            type="submit"
-            isDisabled={loadingADD}
-            className="ml-2 rounded-full text-white p-2"
+        {!session.finished ? (
+          <form
+            onSubmit={handleSendMessage}
+            className="flex gap-5 p-4 border-t-1 border-gray-200 md:px-64"
           >
-            <IoSend className="text-blue-500 hover:text-blue-400 w-7 h-7" />
-          </Button>
-          <input
-            type="text"
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none"
-            placeholder="اكتب ما تشعر به.."
-          />
-        </form>
+            <Button
+              type="submit"
+              isDisabled={loadingADD}
+              className="ml-2 rounded-full text-white p-2"
+            >
+              <IoSend className="text-blue-500 hover:text-blue-400 w-7 h-7" />
+            </Button>
+            <input
+              type="text"
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none"
+              placeholder="اكتب ما تشعر به.."
+            />
+          </form>
+        ) : (
+          <p className="flex justify-center p-4 border-t-1 border-gray-200 md:px-64 text-blue-600">
+            نحن سعداء لإبلاغك بأن نتائج التقييم تشير إلى أنك لا تعاني من أي
+            اضطراب نفسي
+          </p>
+        )}
       </div>
     </div>
   );
