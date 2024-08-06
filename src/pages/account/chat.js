@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { IoSend } from "react-icons/io5";
-import { Button, Progress, Spinner } from "@nextui-org/react";
+import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
+import { Button, Progress, Spinner, Slider } from "@nextui-org/react";
 import Message from "@/components/utils/Message";
 import {
   addMessage,
@@ -21,10 +22,19 @@ export default function Chat() {
     finished: false,
     messages: [],
   });
+  const [currentIndexSymptom, setCurrentIndexSymptom] = useState(0);
+  const [checkedSymptom, setCheckedSymptom] = useState(false);
+  const [associationSymptom, setAssociationSymptom] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
   const [typingIndex, setTypingIndex] = useState(0);
 
   const dummyRef = useRef(null);
+
+  const changeProgressInSurveyStage = (session, operation) => {
+    session.progress = Math.round(
+      session.progress + operation * (25 / session.extractedSymptoms.length)
+    );
+  };
 
   const addIsTypingForMessages = async (messages, isTyping = false) => {
     return messages.map((message, index) => {
@@ -32,7 +42,8 @@ export default function Chat() {
         if (index === messages.length - 2 && message.sender === "ai") {
           return { ...message, isTyping: true };
         }
-        return { ...message, isTyping: index === messages.length - 1 };
+        if (message.sender != "user")
+          return { ...message, isTyping: index === messages.length - 1 };
       }
       return { ...message, isTyping: false };
     });
@@ -46,7 +57,9 @@ export default function Chat() {
       const session = res.data;
       session.messages = await addIsTypingForMessages(session.messages);
       if (!res.error) setSession(session);
+      if (session.stage == 4) changeProgressInSurveyStage(session, 1);
     } catch (err) {
+      console.log(err);
       setLoadingPage(false);
       setResSession({ error: true, message: "sessionId is not valid" });
       router.replace("/account");
@@ -59,6 +72,8 @@ export default function Chat() {
       const res = await addMessage(query["sessionId"], inputMessage);
       setLoadingADD(false);
       const newSession = res.data;
+      console.log(newSession);
+      if (newSession.stage == 4) changeProgressInSurveyStage(newSession, 1);
       newSession.messages = await addIsTypingForMessages(
         newSession.messages,
         true
@@ -134,7 +149,7 @@ export default function Chat() {
       <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
         <div
           className="flex flex-col gap-3 md:gap-6 p-4 overflow-y-auto md:px-60"
-          style={{ height: windowHeight - 140 - 40 + "px" }}
+          style={{ height: windowHeight - 140 - 50 + "px" }}
         >
           {session.messages.map(
             (message, index) =>
@@ -159,25 +174,142 @@ export default function Chat() {
           <div className="mt-2 h-1" ref={dummyRef}></div>
         </div>
         {!session.finished ? (
-          <form
-            onSubmit={handleSendMessage}
-            className="flex gap-5 p-4 border-t-1 border-gray-200 md:px-64"
-          >
-            <Button
-              type="submit"
-              isDisabled={loadingADD}
-              className="ml-2 rounded-full text-white p-2"
+          session.stage != 4 ? (
+            <form
+              onSubmit={handleSendMessage}
+              className="flex gap-5 p-4 border-t-1 border-gray-200 md:px-64"
             >
-              <IoSend className="text-blue-500 hover:text-blue-400 w-7 h-7" />
-            </Button>
-            <input
-              type="text"
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none"
-              placeholder="اكتب ما تشعر به.."
-            />
-          </form>
+              <Button
+                type="submit"
+                isDisabled={loadingADD}
+                className="ml-2 rounded-full text-white p-2"
+              >
+                <IoSend className="text-blue-500 hover:text-blue-400 w-7 h-7" />
+              </Button>
+              <input
+                type="text"
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none"
+                placeholder="اكتب ما تشعر به.."
+              />
+            </form>
+          ) : (
+            <div className="min-h-[86px] flex items-center border-t-1 border-gray-200 px-2 md:px-24 lg:px-52 py-1">
+              <div className="flex flex-col items-center w-full">
+                <div className="h-1/4 w-full flex justify-center">
+                  <input
+                    checked={checkedSymptom}
+                    onChange={(event) => {
+                      if (event.target.checked) {
+                        session.extractedSymptoms[
+                          currentIndexSymptom
+                        ].selected = 1;
+
+                        setCheckedSymptom(true);
+                      } else {
+                        session.extractedSymptoms[
+                          currentIndexSymptom
+                        ].selected = 0;
+                        setCheckedSymptom(false);
+                      }
+                    }}
+                    type="checkbox"
+                    id="confirmation"
+                    className="peer ml-2 bg-inherit rounded-full p-1 accent-orange-400"
+                  />
+                  <label
+                    htmlFor="confirmation"
+                    className="ml-2 text-gray-600 peer-checked:text-orange-500 text-sm md:text-base"
+                  >
+                    {session.extractedSymptoms.length > 0
+                      ? session.extractedSymptoms[currentIndexSymptom].name
+                      : ""}
+                  </label>
+                </div>
+                <div className="h-3/4 min-h-[52px] w-full flex justify-around items-center">
+                  <Button
+                    isDisabled={
+                      currentIndexSymptom ==
+                      session.extractedSymptoms.length - 1
+                    }
+                    className="border-1 border-blue-600 hover:bg-blue-200 bg-blue-600 text-white hover:text-blue-600 rounded-full min-w-10 p-0 text-lg"
+                    onClick={() => {
+                      setCurrentIndexSymptom(
+                        currentIndexSymptom ==
+                          session.extractedSymptoms.length - 1
+                          ? currentIndexSymptom
+                          : currentIndexSymptom + 1
+                      );
+                      setCheckedSymptom(
+                        session.extractedSymptoms[currentIndexSymptom + 1]
+                          .selected == 1
+                      );
+                      setAssociationSymptom(
+                        session.extractedSymptoms[currentIndexSymptom + 1]
+                          .association
+                      );
+                      changeProgressInSurveyStage(session, 1);
+                    }}
+                  >
+                    <MdNavigateNext />
+                  </Button>
+                  {checkedSymptom ||
+                  session.extractedSymptoms[currentIndexSymptom].selected ==
+                    1 ? (
+                    <Slider
+                      label="Association"
+                      dir="ltr"
+                      size="sm"
+                      step={0.01}
+                      color="warning"
+                      showTooltip={true}
+                      formatOptions={{ style: "percent" }}
+                      maxValue={1}
+                      minValue={0}
+                      value={associationSymptom}
+                      className="w-[70%] md:w-[40%] mt-2 px-4"
+                      onChange={(association) => {
+                        session.extractedSymptoms[
+                          currentIndexSymptom
+                        ].association = association;
+                        setAssociationSymptom(association);
+                      }}
+                      renderValue={
+                        session.extractedSymptoms[currentIndexSymptom]
+                          .association
+                      }
+                    />
+                  ) : (
+                    <span className="w-[70%] md:w-[40%]"></span>
+                  )}
+
+                  <Button
+                    isDisabled={currentIndexSymptom == 0}
+                    className="border-1 border-blue-600 hover:bg-blue-200 bg-blue-600 text-white hover:text-blue-600 rounded-full min-w-10 p-0 text-lg"
+                    onClick={() => {
+                      setCurrentIndexSymptom(
+                        currentIndexSymptom == 0
+                          ? currentIndexSymptom
+                          : currentIndexSymptom - 1
+                      );
+                      setCheckedSymptom(
+                        session.extractedSymptoms[currentIndexSymptom - 1]
+                          .selected == 1
+                      );
+                      setAssociationSymptom(
+                        session.extractedSymptoms[currentIndexSymptom - 1]
+                          .association
+                      );
+                      changeProgressInSurveyStage(session, -1);
+                    }}
+                  >
+                    <MdNavigateBefore />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )
         ) : (
           <p className="flex justify-center p-4 border-t-1 border-gray-200 md:px-64 text-blue-600">
             نحن سعداء لإبلاغك بأن نتائج التقييم تشير إلى أنك لا تعاني من أي
