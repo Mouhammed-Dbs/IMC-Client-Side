@@ -10,8 +10,8 @@ export default function MainNavbarNavbar({ name }) {
   const router = useRouter();
 
   const handleLogout = () => {
-    localStorage.removeItem('user-token');
-    router.push('/login');
+    localStorage.removeItem("user-token");
+    router.push("/login");
   };
 
   return (
@@ -31,8 +31,6 @@ export default function MainNavbarNavbar({ name }) {
         >
           IMC
         </h1>
-
-
       </div>
       {!router.pathname.endsWith("profile") && (
         <Button
@@ -45,16 +43,15 @@ export default function MainNavbarNavbar({ name }) {
           <p className="text-lg">{name}</p>
         </Button>
       )}
-      {router.pathname.endsWith("profile") && (<Button
-        onClick={handleLogout}
-        className="flex justify-center rounded-full px-3 bg-inherit  text-blue-500 hover:bg-blue-200/90"
-      >
-        <span className=" self-center text-medium">تسجيل خروج</span>
-        <RiLogoutCircleRLine className="text-lg  self-center text-red-500" />
-      </Button>
+      {router.pathname.endsWith("profile") && (
+        <Button
+          onClick={handleLogout}
+          className="flex justify-center rounded-full px-3 bg-inherit  text-blue-500 hover:bg-blue-200/90"
+        >
+          <span className=" self-center text-medium">تسجيل خروج</span>
+          <RiLogoutCircleRLine className="text-lg  self-center text-red-500" />
+        </Button>
       )}
-
     </header>
   );
 }
-

@@ -14,7 +14,7 @@ export default function SessionCard({
   order,
   doctorName,
   statusFinished,
-  progress,
+  stage,
   creationDate,
   finishingDate,
 }) {
@@ -40,10 +40,19 @@ export default function SessionCard({
             {statusFinished ? "منتهية في " + finishingDate : "Opened"}
           </p>
         </div>
-        <div className="flex gap-3">
-          <p className="font-bold">المرحلة الحالية</p>
-          <p className="self-end">{progress}</p>
-        </div>
+
+        {!statusFinished && (
+          <div className="flex gap-3">
+            <p className="font-bold">المرحلة الحالية</p>
+            <p className="self-end">
+              {stage === 1 && "مرحلة التشخيص العام"}
+              {stage === 2 && "مرحلة استخلاص الأعراض النفسية"}
+              {stage === 3 && "مرحلة استخلاص الأعراض الجسدية"}
+              {stage === 4 && "مرحلة تأكيد الأعراض"}
+            </p>
+          </div>
+        )}
+
         <div className="flex gap-1">
           <p className="font-bold">تاريخ الانشاء</p>
           <p className="self-end">{creationDate}</p>
@@ -52,15 +61,13 @@ export default function SessionCard({
       {
         <Button
           onClick={(e) => {
-            if (!statusFinished) {
-              router.push("/account/chat?sessionId=" + id);
-            }
+            router.push("/account/chat?sessionId=" + id);
           }}
           className={`block m-auto bg-blue-500 text-white hover:text-blue-500 hover:bg-white hover:border-2 hover:border-blue-500 px-8`}
           radius="full"
           size="sm"
         >
-          {statusFinished ? "عرض التقرير" : "دخول"}
+          {statusFinished ? "مراجعة الجلسة" : "دخول"}
         </Button>
       }
     </div>

@@ -90,4 +90,33 @@ const addMessage = async (sessionId, message) => {
   return { error: true };
 };
 
-export { getUserSessions, getUserSession, createSession, addMessage };
+const updateAssociationSymptoms = async (sessionId, symptoms) => {
+  let token = localStorage.getItem("user-token");
+  if (token) {
+    try {
+      const res = await axios.post(
+        `${process.env.BASE_API_URL}/sessions/${sessionId}/update-association-symptoms`,
+        {
+          symptoms,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return res.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+  return { error: true };
+};
+
+export {
+  getUserSessions,
+  getUserSession,
+  createSession,
+  addMessage,
+  updateAssociationSymptoms,
+};

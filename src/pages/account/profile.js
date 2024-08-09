@@ -209,7 +209,7 @@ export default function Profile({ user }) {
                   order={session.order}
                   doctorName={session.doctorName}
                   statusFinished={session.statusFinished}
-                  progress={session.progress}
+                  stage={session.stage}
                   creationDate={session.creationDate}
                   finishingDate={session.finishingDate}
                 />
